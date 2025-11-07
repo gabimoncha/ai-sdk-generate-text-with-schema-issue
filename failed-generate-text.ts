@@ -1,5 +1,4 @@
 import { generateText, type LanguageModel, Output, stepCountIs } from "ai";
-import z from "zod";
 import {
 	actionSchema,
 	input,
@@ -15,9 +14,7 @@ export async function failedGenerateText(model: LanguageModel) {
 		prompt: input,
 		tools,
 		system: systemPromptWithTool,
-		experimental_output: Output.object({
-			schema: z.array(actionSchema),
-		}),
-		stopWhen: stepCountIs(20),
+    output: Output.array({ element: actionSchema }),
+		stopWhen: stepCountIs(5),
 	});
 }

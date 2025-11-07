@@ -3,14 +3,14 @@ import {
 	actionSchema,
 	input,
 	providerOptions,
-	systemPrompt,
+  systemPromptWithTool,
 } from "./options";
 
 export async function failedGenerateObject(model: LanguageModel) {
   return generateObject({
     model: model,
     providerOptions: providerOptions,
-    system: systemPrompt,
+    system: systemPromptWithTool,
     output: 'array',
     schema: actionSchema,
     prompt: input,
