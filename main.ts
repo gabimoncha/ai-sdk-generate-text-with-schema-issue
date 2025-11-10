@@ -4,131 +4,123 @@ import {failedToolLoopAgent} from "./failed-tool-loop-agent";
 import {aiGatewayModel, googleModel, groqModel, openrouterProviderModel} from "./options";
 
 async function main() {
-  // generateText with experimental_output
-  // This one fails
+  // generateText with structured output
+  // This one fails - Function calling with a response mime type: 'application/json' is unsupported
   try {
     const googleResult = await failedGenerateText(googleModel);
-    console.log("Google result:")
+    console.log("generateText - Google result:")
     console.log(JSON.stringify(googleResult.content, null, 2));
-    console.log("Google step count:")
+    console.log("generateText - Google step count:")
     console.log(googleResult.steps.length);
   } catch (error) {
-    console.error("Google failed:\n", error);
+    console.error("generateText - Google failed:\n", error);
   }
   
-  // This one fails
+  // This one fails - json mode cannot be combined with tool/function calling
   try {
     const groqResult = await failedGenerateText(groqModel);
-    console.log("Groq result:")
+    console.log("generateText - Groq result:")
     console.log(JSON.stringify(groqResult.content, null, 2));
-    console.log("Groq step count:")
+    console.log("generateText - Groq step count:")
     console.log(groqResult.steps.length);
   } catch (error) {
-    console.error("groq failed:\n", error);
+    console.error("generateText - Groq failed:\n", error);
   }
 
-  // This one works, but still returns text instead of object
+  // This one kinda works, but still returns text instead of object
   try {
     const openrouterResult = await failedGenerateText(openrouterProviderModel);
-    console.log("Openrouter result:")
+    console.log("generateText - Openrouter result:")
     console.log(JSON.stringify(openrouterResult.content, null, 2));
-    console.log("Openrouter step count:")
+    console.log("generateText - Openrouter step count:")
     console.log(openrouterResult.steps.length);
   } catch (error) {
-    console.error("Openrouter failed:", error);
+    console.error("generateText - Openrouter failed:", error);
   }
 
-  // This one fails to match schema
+  // This one fails, No object generated: response did not match schema.
   try {
-    const aiGatewayResult = await failedGenerateText(aiGatewayModel);
-    console.log("AI Gateway result:")
-    console.log(JSON.stringify(aiGatewayResult.content, null, 2));
-    console.log("AI Gateway step count:")
-    console.log(aiGatewayResult.steps.length);
+    const gatewayResult = await failedGenerateText(aiGatewayModel);
+    console.log("generateText - AI Gateway result:")
+    console.log(JSON.stringify(gatewayResult.content, null, 2));
+    console.log("generateText - AI Gateway step count:")
+    console.log(gatewayResult.steps.length);
   } catch (error) {
-    console.error("AI Gateway failed:", error);
+    console.error("generateText - AI Gateway failed:", error);
   }
 
   // generateObject
   // This one works
   try {
     const groqResult = await failedGenerateObject(groqModel);
-    console.log("Groq object:")
+    console.log("generateObject - Groq result:")
     console.log(JSON.stringify(groqResult.object, null, 2));
   } catch (error) {
-    console.error("groq failed:\n", error);
+    console.error("generateObject - Groq failed:\n", error);
   }
 
   // This one works
   try {
     const googleResult = await failedGenerateObject(googleModel);
-    console.log("Google object:")
+    console.log("generateObject - Google result:")
     console.log(JSON.stringify(googleResult.object, null, 2));
   } catch (error) {
-    console.error("Google failed:\n", error);
+    console.error("generateObject - Google failed:\n", error);
   }
 
   // This one works
   try {
     const openrouterResult = await failedGenerateObject(openrouterProviderModel);
-    console.log("Openrouter object:")
+    console.log("generateObject - Openrouter result:")
     console.log(JSON.stringify(openrouterResult.object, null, 2));
   } catch (error) {
-    console.error("Openrouter failed:", error);
+    console.error("generateObject - Openrouter failed:", error);
   }
 
-  // This one fails to match schema
+  // This one works
   try {
-    const aiGatewayResult = await failedGenerateObject(aiGatewayModel);
-    console.log("AI Gateway object:")
-    console.log(JSON.stringify(aiGatewayResult.object, null, 2));
+    const gatewayResult = await failedGenerateObject(aiGatewayModel);
+    console.log("generateObject - AI Gateway result:")
+    console.log(JSON.stringify(gatewayResult.object, null, 2));
   } catch (error) {
-    console.error("AI Gateway failed:", error);
+    console.error("generateObject - AI Gateway failed:", error);
   }
 
-  // generateObject
-  // This one fails
+  // tool loop agent
+  // This one fails - json mode cannot be combined with tool/function calling
   try {
     const groqResult = await failedToolLoopAgent(groqModel);
-    console.log("Groq output:")
+    console.log("toolLoopAgent - Groq result:")
     console.log(JSON.stringify(groqResult.output, null, 2));
-    console.log("Groq step count:")
-    console.log(groqResult.steps.length);
   } catch (error) {
-    console.error("groq failed:\n", error);
+    console.error("toolLoopAgent - Groq failed:\n", error);
   }
 
-  // This one fails
+  // This one fails - Function calling with a response mime type: 'application/json' is unsupported
   try {
     const googleResult = await failedToolLoopAgent(googleModel);
-    console.log("Google output:")
+    console.log("toolLoopAgent - Google result:")
     console.log(JSON.stringify(googleResult.output, null, 2));
-    console.log("Google step count:")
-    console.log(googleResult.steps.length);
   } catch (error) {
-    console.error("Google failed:\n", error);
+    console.error("toolLoopAgent - Google failed:\n", error);
   }
 
-  // This one stops after the tool call
+  // This one works
   try {
     const openrouterResult = await failedToolLoopAgent(openrouterProviderModel);
-    console.log("Openrouter output:")
+    console.log("toolLoopAgent - Openrouter result:")
     console.log(JSON.stringify(openrouterResult.output, null, 2));
-    console.log("Openrouter step count:")
-    console.log(openrouterResult.steps.length);
   } catch (error) {
-    console.error("Openrouter failed:", error);
+    console.error("toolLoopAgent - Openrouter failed:", error);
   }
 
-  // This one fails to match schema
+  // This one fails - No object generated: response did not match schema.
   try {
-    const aiGatewayResult = await failedToolLoopAgent(aiGatewayModel);
-    console.log("AI Gateway output:")
-    console.log(JSON.stringify(aiGatewayResult.output, null, 2));
-    console.log("AI Gateway step count:")
-    console.log(aiGatewayResult.steps.length);
+    const gatewayResult = await failedToolLoopAgent(aiGatewayModel);
+    console.log("toolLoopAgent - AI Gateway result:")
+    console.log(JSON.stringify(gatewayResult.output, null, 2));
   } catch (error) {
-    console.error("AI Gateway failed:", error);
+    console.error("toolLoopAgent - AI Gateway failed:", error);
   }
 }
 

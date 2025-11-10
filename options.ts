@@ -81,10 +81,7 @@ const resolveDate = ({ input }: { input: string }) => {
 		forwardDate: true,
 	});
 	if (!parsed || parsed.length === 0) return null;
-	return parsed.map((p) => ({
-		text: p.text,
-		start: dayjs(p.start.date()).format("YYYY-MM-DD"),
-	}));
+	return parsed.map((p) => dayjs(p.start.date()).format("YYYY-MM-DD"));
 };
 
 export const tools = {
