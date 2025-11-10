@@ -27,7 +27,7 @@ async function main() {
     console.error("generateText - Groq failed:\n", error);
   }
 
-  // This one kinda works, but still returns text instead of object
+  // This one fails, doesn't call tool
   try {
     const openrouterResult = await failedGenerateText(openrouterProviderModel);
     console.log("generateText - Openrouter result:")
@@ -105,11 +105,12 @@ async function main() {
     console.error("toolAgent - Google failed:\n", error);
   }
 
-  // This one works
+  // This one kinda works - doesn't call tool
   try {
     const openrouterResult = await failedToolAgent(openrouterProviderModel);
     console.log("toolAgent - Openrouter result:")
     console.log(JSON.stringify(openrouterResult.experimental_output, null, 2));
+    console.log(JSON.stringify(openrouterResult.steps.map(step => step.toolCalls), null, 2));
   } catch (error) {
     console.error("toolAgent - Openrouter failed:", error);
   }

@@ -14,6 +14,10 @@ export async function failedToolAgent(model: LanguageModel) {
     model,
     system: systemPromptWithTool,
     tools,
+    toolChoice: {
+      type: "tool",
+      toolName: "resolveDate",
+    },
     experimental_output: Output.object({
 			schema: z.array(actionSchema),
 		}),
