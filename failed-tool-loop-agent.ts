@@ -13,6 +13,10 @@ export async function failedToolLoopAgent(model: LanguageModel) {
     model,
     providerOptions,
     tools,
+    toolChoice: {
+      type: "tool",
+      toolName: "resolveDate",
+    },
     instructions: systemPromptWithTool,
     output: Output.array({ element: actionSchema }),
     stopWhen: stepCountIs(5),
